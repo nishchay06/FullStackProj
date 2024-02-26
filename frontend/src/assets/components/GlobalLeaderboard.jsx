@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 import Entry from "./Entry"
-import { DayPicker } from "react-day-picker"
 import { format } from "date-fns"
+import Calendar from "./Calendar"
+
 let footer = null
 export default function GlobalLeaderboard() {
   const [data, setData] = useState([])
@@ -27,7 +28,9 @@ export default function GlobalLeaderboard() {
   useEffect(() => {
     if (selectedDate) {
       fetchPastWeeksData(selectedDate)
-      footer = <p>You picked {format(selectedDate, "PP")}.</p>
+      const oneWeekAgo = new Date(selectedDate)
+      oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
+      footer = <p>You picked {format(oneWeekAgo, "PP")} to {format(selectedDate, "PP")}.</p>
     }
   }, [selectedDate])
 
@@ -40,10 +43,9 @@ export default function GlobalLeaderboard() {
   ) : (
     <>
       <div style={{ display: "flex", justifyContent: "space-around" }}>
-        <h1>Global Leaderboard</h1>
-        <DayPicker
-          mode='single'
-          selected={selectedDate}
+        <h1>Weekly Global Leaderboard</h1>
+        <Calendar
+          date={selectedDate}
           onSelect={handleDateSelection}
           footer={footer}
         />

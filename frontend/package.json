@@ -14,10 +14,10 @@
     "country-list": "^2.3.0",
     "date-fns": "^3.3.1",
     "react": "^18.2.0",
-    "react-date-picker": "^10.6.0",
     "react-day-picker": "^8.10.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.22.1"
+    "react-router-dom": "^6.22.1",
+    "react-select": "^5.8.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.56",

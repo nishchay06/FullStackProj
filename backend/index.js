@@ -40,7 +40,7 @@ app.get("/leaderboard", (req, res) => {
   )
 })
 
-// Display last week leaderboard given a country by the user (Top 200)
+// Display leaderboard given a country by the user (Top 200)
 app.get("/leaderboard/:country", (req, res) => {
   const country = req.params.country
   db.query(
