@@ -26,11 +26,20 @@ db.connect()
 
 // Display current week leaderboard (Top 200)
 app.get("/leaderboard", (req, res) => {
-  db.query("select * from data order by score desc limit 200", (err, data) => {
-    if (err) res.status(500).json({ error: err })
-    return res.status(200).json(data)
-  })
+  const selectedDate = req.query.selectedDate || new Date()
+  const oneWeekAgo = new Date(selectedDate)
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
+
+  db.query(
+    "select * from data where timestamp > ? and timestamp <= ? order by score desc limit 200",
+    [oneWeekAgo, selectedDate],
+    (err, data) => {
+      if (err) res.status(500).json({ error: err })
+      return res.status(200).json(data)
+    }
+  )
 })
+
 // Display last week leaderboard given a country by the user (Top 200)
 app.get("/leaderboard/:country", (req, res) => {
   const country = req.params.country
