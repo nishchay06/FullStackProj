@@ -1,7 +1,7 @@
 const express = require("express")
 const cors = require("cors")
 const mysql = require("mysql2")
-require('dotenv').config();
+require("dotenv").config()
 const app = express()
 
 app.use(cors())
@@ -23,7 +23,6 @@ const db = mysql.createConnection({
 })
 
 db.connect()
-
 
 // Display current week leaderboard (Top 200)
 app.get("/leaderboard", (req, res) => {
@@ -52,8 +51,10 @@ app.get("/user/:userId", (req, res) => {
     req.params.userId,
     (err, data) => {
       if (err) res.status(500).json({ error: err })
-      data[0].rank += 1
-      return res.status(200).json(data)
+      db.query('select * from data where UID = ?', req.params.userId, (err, user) => {
+        if (err) res.status(500).json({ error: err })
+        return res.status(200).json({ rank: data[0].rank + 1, user: user[0] })
+      })
     }
   )
 })
