@@ -1,38 +1,53 @@
 import axios from "axios"
+import { getName } from "country-list"
 import { useEffect, useState } from "react"
 
 export default function User() {
-  const id = "0bcf33e0-42da-40ab-98f2-0c737b6a714b"
+  const id = "ed997299-d55d-4395-9d2e-cf0ed2372ae9"
   const path = "http://localhost:3000/user/"
   const [rank, setRank] = useState(0)
   const [user, setUser] = useState({})
+  const [loading, setLoading] = useState(true)
+
   async function getData(url) {
-    const response = await axios.get(url)
-    const data = await response.data
-    setRank(data.rank)
-    setUser(data.user)
+    try {
+      const response = await axios.get(url)
+      const data = await response.data
+      setRank(data.rank)
+      setUser(data.user)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setLoading(false)
+    }
   }
   useEffect(() => {
     getData(path + id)
   }, [])
   return (
-    <Render
-      rank={rank}
-      Name={user.Name}
-      Score={user.score}
-      Country={user.country}
-    />
+    <>
+      {loading ? (
+        <p>Loading... </p>
+      ) : (
+        <UserDetails
+          rank={rank}
+          name={user.Name}
+          score={user.score}
+          country={user.country}
+        />
+      )}
+    </>
   )
 }
 
-function Render({ rank, Name, Score, Country }) {
+function UserDetails({ rank, name, score, country }) {
   return (
     <div>
       <h1>User</h1>
       <p>Rank: {rank}</p>
-      <p>Name: {Name}</p>
-      <p>Score: {Score}</p>
-      <p>Country: {Country}</p>
+      <p>Name: {name}</p>
+      <p>Score: {score}</p>
+      <p>Country: {getName(country)}</p>
     </div>
   )
 }
