@@ -51,10 +51,14 @@ app.get("/user/:userId", (req, res) => {
     req.params.userId,
     (err, data) => {
       if (err) res.status(500).json({ error: err })
-      db.query('select * from data where UID = ?', req.params.userId, (err, user) => {
-        if (err) res.status(500).json({ error: err })
-        return res.status(200).json({ rank: data[0].rank + 1, user: user[0] })
-      })
+      db.query(
+        "select * from data where UID = ?",
+        req.params.userId,
+        (err, user) => {
+          if (err) res.status(500).json({ error: err })
+          return res.status(200).json({ rank: data[0].rank + 1, user: user[0] })
+        }
+      )
     }
   )
 })
