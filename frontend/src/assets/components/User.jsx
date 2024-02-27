@@ -19,7 +19,7 @@ export default function User() {
       setUser(data.user)
     } catch (error) {
       console.error(error)
-      setError("Error fetching user data")
+      setError("No User Found...")
     } finally {
       setLoading(false)
     }
