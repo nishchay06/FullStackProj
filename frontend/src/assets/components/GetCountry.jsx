@@ -40,5 +40,11 @@ const options = [
 ]
 
 export default function GetCountry({ onSelect }) {
-  return <Select value={"IN"} options={options} onChange={(e) => onSelect(e.value)} />
+  return (
+    <Select
+      value={"IN"}
+      options={options}
+      onChange={(e) => onSelect(e.value)}
+    />
+  )
 }

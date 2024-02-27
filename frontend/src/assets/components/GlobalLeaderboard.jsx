@@ -8,7 +8,7 @@ let footer = null
 export default function GlobalLeaderboard() {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
-  const [selectedDate, setSelectedDate] = useState(new Date())
+  const [selectedDate, setSelectedDate] = useState('2024-02-20')
 
   const fetchPastWeeksData = async (date) => {
     try {

@@ -56,14 +56,17 @@ app.get("/leaderboard/:country", (req, res) => {
 // Fetch user rank, given the userId.
 app.get("/user/:userId", (req, res) => {
   db.query(
-    "select count(*) as `rank` from data where score > (select score from data where UID = ?)",
+    "select * from data where UID = ?",
     req.params.userId,
-    (err, data) => {
+    (err, user) => {
       if (err) res.status(500).json({ error: err })
+      if (user.length === 0) {
+        return res.status(404).json({ error: "User not found" })
+      }
       db.query(
-        "select * from data where UID = ?",
+        "select count(*) as `rank` from data where score > (select score from data where UID = ?)",
         req.params.userId,
-        (err, user) => {
+        (err, data) => {
           if (err) res.status(500).json({ error: err })
           return res.status(200).json({ rank: data[0].rank + 1, user: user[0] })
         }
